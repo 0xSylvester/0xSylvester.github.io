@@ -3,16 +3,14 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Change to master if your default branch is master
+      - main
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -31,16 +29,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm" # Change to pnpm or yarn if you use them
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm install # Change to pnpm install or yarn install if needed
+        run: pnpm install
 
       - name: Build and Pre-render
         env:
-          # CRITICAL: Replace 'your-repository-name' with your exact GitHub repo slug
           NUXT_APP_BASE_URL: /
-        run: npx nuxt build --preset github_pages
+        run: pnpx nuxt build --preset github_pages
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
